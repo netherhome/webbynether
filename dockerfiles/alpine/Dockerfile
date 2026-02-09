@@ -1,25 +1,19 @@
-FROM alpine:latest
-
-# 1. Install only the absolute essentials for a GUI
-RUN apk add --no-cache \
-    xorg-server \
-    xvfb \
-    i3wm \
-    xterm \
-    dbus \
-    mesa-dri-swrast \
-    ttf-dejavu
-
-# 2. Setup Environment
-ENV DISPLAY=:0
-WORKDIR /root
-
-# 3. Create entrypoint
-RUN printf "#!/bin/sh\n\
-rm -f /tmp/.X0-lock\n\
-Xvfb :0 -screen 0 1024x768x24 &\n\
-sleep 2\n\
-export DISPLAY=:0\n\
-exec i3\n" > /entrypoint.sh && chmod +x /entrypoint.sh
-
-CMD ["/entrypoint.sh"]
+// The root filesystem location
+export const diskImageUrl = "https://webvm.io/images/alpine_v1.ext2";
+// The root filesystem backend type
+export const diskImageType = "browser";
+// Print an introduction message about the technology
+export const printIntro = false;
+// Is a graphical display needed
+export const needsDisplay = true;
+// Executable full path (Required)
+export const cmd = "/sbin/init";
+// Arguments, as an array (Required)
+export const args = [];
+// Optional extra parameters
+export const opts = {
+    // User id
+    uid: 0,
+    // Group id
+    gid: 0
+};
